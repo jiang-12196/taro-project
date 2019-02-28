@@ -1,15 +1,15 @@
 {
-	"miniprogramRoot": "dist/",
-	"projectname": "little-project",
-	"description": "不用",
-	"appid": "touristappid",
-	"setting": {
-		"urlCheck": true,
-		"es6": false,
-		"postcss": false,
-		"minified": false,
-		"newFeature": true
-	},
-	"compileType": "miniprogram",
-	"condition": {}
+  "miniprogramRoot": "dist/",
+  "projectname": "little-project",
+  "description": "不用",
+  "appid": "wx509276a108cc6dbc",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false,
+    "newFeature": true
+  },
+  "compileType": "miniprogram",
+  "condition": {}
 }
