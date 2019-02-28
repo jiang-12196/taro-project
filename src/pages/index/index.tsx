@@ -39,19 +39,14 @@ interface Index {
   props: IProps;
 }
 
-const aaa = ({ counter }) => ({
-  counter
+const aaa = state => ({
+  counter: state.counter
 });
+
 const bbb = dispatch => ({
-  add() {
-    dispatch(add());
-  },
-  dec() {
-    dispatch(minus());
-  },
-  asyncAdd() {
-    dispatch(asyncAdd());
-  }
+  add: add(dispatch),
+  dec: minus(dispatch),
+  asyncAdd: asyncAdd(dispatch)
 });
 
 @connect(
@@ -70,6 +65,8 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   };
 
+  componentDidMount() {}
+
   componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps);
   }
@@ -81,19 +78,20 @@ class Index extends Component {
   componentDidHide() {}
 
   render() {
+    const { add, dec, asyncAdd, counter } = this.props;
     return (
       <View className="index">
-        <Button className="add_btn" onClick={this.props.add}>
+        <Button className="add_btn" onClick={add}>
           +
         </Button>
-        <Button className="dec_btn" onClick={this.props.dec}>
+        <Button className="dec_btn" onClick={dec}>
           -
         </Button>
-        <Button className="dec_btn" onClick={this.props.asyncAdd}>
+        <Button className="dec_btn" onClick={asyncAdd}>
           async
         </Button>
         <View>
-          <Text>{this.props.counter.num}</Text>
+          <Text>{counter.num}</Text>
         </View>
         <View>
           <Text>Hello, World</Text>
