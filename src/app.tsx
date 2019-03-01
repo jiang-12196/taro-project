@@ -34,7 +34,14 @@ class App extends Component {
     }
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    wx.login({
+      success: (res) =>console.log(res)
+    });
+    wx.checkSession({
+      success: (res) =>console.log(res)
+    })
+  }
 
   componentDidShow() {}
 
