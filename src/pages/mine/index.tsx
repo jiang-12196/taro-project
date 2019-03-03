@@ -5,6 +5,8 @@ import { connect } from '@tarojs/redux';
 import { getOpenId } from '../../actions/counter';
 
 import './index.less';
+const db = wx.cloud.database();
+const aaa = db.collection('user');
 
 type PageStateProps = {
   counter: {
@@ -78,7 +80,18 @@ class Index extends Component {
 
   _callBack = e => {
     const { counter } = this.props;
-    console.log(e, counter.openId);
+    const { userInfo } = e.detail;
+    console.log(e.detail.userInfo, counter.openId);
+    aaa.add({
+      data: {
+        ...userInfo,
+        openId: counter.openId
+      },
+      success(res) {
+        // 输出 [{ "title": "The Catcher in the Rye", ... }]
+        console.log(res);
+      }
+    });
   };
 }
 

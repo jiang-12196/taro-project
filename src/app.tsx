@@ -34,7 +34,9 @@ class App extends Component {
     }
   };
 
-  componentDidShow() {}
+  componentDidShow() {
+    wx.cloud.init();
+  }
 
   componentDidHide() {}
 
@@ -45,7 +47,6 @@ class App extends Component {
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
   render() {
-    console.log('store: ======123==>', store.getState());
     return (
       <Provider store={store}>
         <Index />
