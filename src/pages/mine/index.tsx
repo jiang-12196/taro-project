@@ -6,7 +6,7 @@ import { getOpenId } from '../../actions/counter';
 
 import './index.less';
 const db = wx.cloud.database();
-const aaa = db.collection('user');
+const userData = db.collection('user');
 
 type PageStateProps = {
   counter: {
@@ -26,6 +26,7 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
 interface Index {
   props: IProps;
+  openId: String;
 }
 
 const stateToProps = state => ({
@@ -45,18 +46,38 @@ class Index extends Component {
     navigationBarTitleText: '我的'
   };
 
+  constructor(props) {
+    super(props);
+    this.openId = '';
+    this.state = {
+      auth: false
+    };
+  }
+
   componentDidMount() {
     const { getOpenId } = this.props;
     wx.login({
       success: res => {
         getOpenId(res.code);
+        this.openId = res.code;
+        userData
+          .where({
+            _openid: 'oegyL5TjsAdA3i0bFIvJ916mL-Oo'
+          })
+          .get({
+            success: res => {
+              if (res.data.length) {
+                this.setState({
+                  auth: true
+                });
+              }
+            }
+          });
       }
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps);
-  }
+  componentWillReceiveProps(nextProps) {}
 
   componentWillUnmount() {}
 
@@ -65,15 +86,23 @@ class Index extends Component {
   componentDidHide() {}
 
   render() {
+    const { auth } = this.state;
+    if (!auth) {
+      return (
+        <View className="index">
+          <Button
+            openType="getUserInfo"
+            onGetUserInfo={this._callBack}
+            className="auth-phone"
+          >
+            授权
+          </Button>
+        </View>
+      );
+    }
     return (
       <View className="index">
-        <Button
-          openType="getUserInfo"
-          onGetUserInfo={this._callBack}
-          className="auth-phone"
-        >
-          授权
-        </Button>
+        <View>已授权</View>
       </View>
     );
   }
@@ -81,15 +110,13 @@ class Index extends Component {
   _callBack = e => {
     const { counter } = this.props;
     const { userInfo } = e.detail;
-    console.log(e.detail.userInfo, counter.openId);
-    aaa.add({
+    userData.add({
       data: {
         ...userInfo,
         openId: counter.openId
       },
       success(res) {
         // 输出 [{ "title": "The Catcher in the Rye", ... }]
-        console.log(res);
       }
     });
   };
