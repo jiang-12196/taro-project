@@ -25,7 +25,7 @@ class App extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    pages: ['pages/index/index'],
+    pages: ['pages/mine/index', 'pages/index/index'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
@@ -33,15 +33,6 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     }
   };
-
-  componentDidMount() {
-    wx.login({
-      success: (res) =>console.log(res)
-    });
-    wx.checkSession({
-      success: (res) =>console.log(res)
-    })
-  }
 
   componentDidShow() {}
 
@@ -54,6 +45,7 @@ class App extends Component {
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
   render() {
+    console.log('store: ======123==>', store.getState());
     return (
       <Provider store={store}>
         <Index />

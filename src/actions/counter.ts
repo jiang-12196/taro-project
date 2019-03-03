@@ -11,6 +11,12 @@ export const minus = dispatch => () => {
     type: MINUS
   });
 };
+export const getOpenId = dispatch => openId => {
+  return dispatch({
+    type: 'initOpenId',
+    openId
+  });
+};
 
 export const asyncAdd = dispatch => () => {
   setTimeout(() => {
